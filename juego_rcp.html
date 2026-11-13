@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fbf8f6">
+  <title>Misión RCP urbana | Salvar una vida</title>
+  <link rel="stylesheet" href="estilos_rcp.css">
+  <script src="juego_rcp.js" defer></script>
+</head>
+<body>
+  <div class="ambient ambient-one" aria-hidden="true"></div>
+  <div class="ambient ambient-two" aria-hidden="true"></div>
+  <main class="app">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Misión: salvar una vida, inicio">
+        <span class="brand-icon" aria-hidden="true">✚</span>
+        <span><strong>MISIÓN</strong><small>RCP · BEAT URBANO ORIGINAL</small></span>
+      </a>
+      <div class="top-actions">
+        <span class="student-tag"><span class="live-dot"></span> ENTRENAMIENTO · ADULTOS</span>
+        <button id="sound-toggle" class="sound-toggle" type="button" aria-pressed="true" aria-label="Desactivar música y efectos">♫ <span id="sound-label">Música: sí</span></button>
+      </div>
+    </header>
+
+    <section class="game-shell" aria-label="Videojuego educativo de RCP">
+      <aside class="sidebar">
+        <div class="mission-title">
+          <p class="kicker">PROTOCOLO DE RESPUESTA</p>
+          <h1>Salvar<br><span>una vida</span></h1>
+          <p class="tagline">Cada segundo cuenta. ¿Estás listo?</p>
+        </div>
+
+        <div class="level-list" id="level-list" aria-label="Niveles">
+          <div class="level-item is-current" data-level="0"><span class="level-number">01</span><span><strong>Alerta</strong><small>Primeros pasos</small></span><i>●</i></div>
+          <div class="level-item" data-level="1"><span class="level-number">02</span><span><strong>Detecta el error</strong><small>Evita fallos comunes</small></span><i>●</i></div>
+          <div class="level-item" data-level="2"><span class="level-number">03</span><span><strong>Ordena los pasos</strong><small>Secuencia RCP</small></span><i>●</i></div>
+          <div class="level-item" data-level="3"><span class="level-number">04</span><span><strong>Ritmo cardíaco</strong><small>Calidad y frecuencia</small></span><i>●</i></div>
+          <div class="level-item" data-level="4"><span class="level-number">05</span><span><strong>¿Qué harías?</strong><small>Decisiones clínicas</small></span><i>●</i></div>
+          <div class="level-item" data-level="5"><span class="level-number">06</span><span><strong>Salva al paciente</strong><small>Simulación final</small></span><i>●</i></div>
+        </div>
+
+        <div class="sidebar-bottom">
+          <div class="score-card">
+            <div class="score-icon" aria-hidden="true">✦</div>
+            <div><small>PUNTUACIÓN</small><strong id="score">000</strong></div>
+            <div class="lives" id="lives" aria-label="3 vidas"><span>♥</span><span>♥</span><span>♥</span></div>
+          </div>
+          <p class="safe-note">Contenido educativo para estudiantes. La práctica clínica requiere formación supervisada.</p>
+        </div>
+      </aside>
+
+      <section class="play-area" id="play-area">
+        <div class="progress-row">
+          <div class="progress-copy"><span id="level-label">LISTO PARA EMPEZAR</span><span id="progress-label">0% completado</span></div>
+          <div class="progress-track"><div id="progress-fill"></div></div>
+        </div>
+
+        <div class="welcome-screen" id="welcome-screen">
+          <div class="welcome-copy">
+            <div class="welcome-badge"><span class="pulse-icon">♥</span> VERSIÓN MUSICAL · BEAT ORIGINAL</div>
+            <h2>Tu entrenamiento<br>empieza <span>ahora.</span></h2>
+            <p>Enfrenta seis niveles, identifica errores, ordena la secuencia y toma decisiones bajo presión. La música urbana original comienza al iniciar. Tienes tres vidas y 15 segundos por reto.</p>
+            <button id="start-button" class="button button-primary button-large" type="button">Iniciar misión <span aria-hidden="true">→</span></button>
+            <div class="welcome-meta"><span>⏱ 15 s por reto</span><span>♥ 3 vidas</span><span>✦ +10 por acierto</span></div>
+          </div>
+          <div class="hero-illustration" aria-hidden="true">
+            <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+            <div class="hero-cross">✚</div>
+            <div class="hero-heart">♥<span class="heart-pulse"></span></div>
+            <div class="hero-card card-top"><span class="card-wave">⌁⌁⌁</span><small>RITMO</small><strong>100–120</strong></div>
+            <div class="hero-card card-bottom"><span>⚡</span><small>DEA</small><strong>Listo</strong></div>
+            <div class="hero-caption">CENTRO DE SIMULACIÓN</div>
+          </div>
+        </div>
+
+        <div class="challenge-screen hidden" id="challenge-screen" aria-live="polite">
+          <div class="challenge-heading">
+            <div>
+              <div class="scenario-chip"><span class="chip-pulse"></span><span id="scenario-label">CASO CLÍNICO</span></div>
+              <h2 id="challenge-title"></h2>
+            </div>
+            <div class="timer" id="timer" aria-label="Tiempo restante">
+              <svg viewBox="0 0 56 56" aria-hidden="true"><circle class="timer-bg" cx="28" cy="28" r="24"></circle><circle class="timer-progress" id="timer-circle" cx="28" cy="28" r="24"></circle></svg>
+              <strong id="timer-value">15</strong><small>SEG</small>
+            </div>
+          </div>
+
+          <div class="case-card">
+            <div class="case-art" aria-hidden="true">
+              <svg class="rescue-scene" viewBox="0 0 740 300" role="img" aria-labelledby="room-title">
+                <title id="room-title">Sala de simulación con una estudiante realizando compresiones de RCP a un maniquí adulto</title>
+                <defs>
+                  <linearGradient id="room-wall" x1="0" x2="1" y1="0" y2="1">
+                    <stop offset="0" stop-color="#fff0f2"/><stop offset="1" stop-color="#f5dce7"/>
+                  </linearGradient>
+                  <linearGradient id="room-floor" x1="0" x2="0" y1="0" y2="1">
+                    <stop offset="0" stop-color="#f3d9e1"/><stop offset="1" stop-color="#e7c2d0"/>
+                  </linearGradient>
+                  <filter id="room-shadow" x="-30%" y="-30%" width="160%" height="180%">
+                    <feGaussianBlur stdDeviation="9"/>
+                  </filter>
+                </defs>
+                <rect width="740" height="300" fill="url(#room-wall)"/>
+                <circle cx="92" cy="36" r="95" fill="#fff5ce" opacity=".6"/>
+                <rect x="37" y="34" width="172" height="106" rx="12" fill="#b9dbe4" stroke="#fff" stroke-width="8"/>
+                <path d="M123 36v100M41 88h164" stroke="#f8f3ed" stroke-width="6"/>
+                <path d="M48 43h70v40H48z" fill="#d9edf0" opacity=".8"/>
+                <rect x="572" y="40" width="128" height="112" rx="13" fill="#fffaf5" stroke="#d7ccda" stroke-width="3"/>
+                <rect x="586" y="55" width="100" height="64" rx="7" fill="#e1f1ef"/>
+                <path d="M594 91h17l8-14 11 25 12-19 9 8h29" fill="none" stroke="#df6f86" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="604" cy="135" r="6" fill="#ed8296"/>
+                <text x="620" y="140" fill="#79869f" font-size="9" font-family="sans-serif" font-weight="700">DEA / MONITOR</text>
+                <path d="M0 194h740v106H0z" fill="url(#room-floor)"/>
+                <path d="M0 194h740" stroke="#c7c9dc" stroke-width="3"/>
+                <path d="M0 259h740M160 194l-40 106m180-106-22 106m200-106 22 106m180-106 40 106" stroke="#fff" stroke-opacity=".33" stroke-width="2"/>
+                <ellipse cx="371" cy="256" rx="229" ry="24" fill="#65708e" opacity=".2" filter="url(#room-shadow)"/>
+                <rect x="133" y="200" width="456" height="48" rx="24" fill="#fdf9f5" stroke="#aab4ca" stroke-width="3"/>
+                <rect x="155" y="207" width="414" height="34" rx="17" fill="#e9bfb3"/>
+                <path d="M182 244v30m390-30v30" stroke="#8f9ab3" stroke-width="8" stroke-linecap="round"/>
+                <g class="mannequin">
+                  <circle cx="206" cy="217" r="18" fill="#efc7a8"/>
+                  <path d="M224 209q30-18 68-7l59 17-11 29-78-7-43 8z" fill="#e98fa6"/>
+                  <path d="M337 218l80 7 54-5 8 19-62 15-85-9z" fill="#f0a2b3"/>
+                  <path d="M463 222l63 11q12 4 16 15l-8 9q-13-7-21-9l-51-7z" fill="#e8b99c"/>
+                  <path d="M273 237l-50 13-27-5-8 10q8 11 32 9l62-8" fill="#d97890"/>
+                  <path d="M519 223l38 5 18 10-7 11-27-8-28-3" fill="#e8b99c"/>
+                  <path d="M165 222q8-11 21-7" fill="none" stroke="#d8a98f" stroke-width="3" stroke-linecap="round"/>
+                </g>
+                <g id="rescuer-player" class="rescuer" tabindex="0" role="button" aria-label="Compañera de RCP. Arrastra para moverla o usa las flechas del teclado.">
+                  <path d="M452 205q16-49 61-55 27-4 42 17l-15 35-33 21-50 4z" fill="#f4a897"/>
+                  <path d="M471 181q34-30 70-6l-12 30-45 8z" fill="#ffdb9c"/>
+                  <circle cx="527" cy="130" r="19" fill="#b77e67"/>
+                  <path d="M508 127q7-26 35-20 17 4 18 21l-10-7-35 7" fill="#5c5774"/>
+                  <path d="M502 153q28-16 49 6l12 40-68 5z" fill="#df6a85"/>
+                  <path d="M505 164l-37 34-51 9-9-9 49-20 25-35" fill="#f0bd9e"/>
+                  <g class="rescuer-arms">
+                    <path d="M491 165l-48 38-42 9-5-9 44-18 31-37" fill="#df6a85"/>
+                    <path d="M437 203l-34 7-20 9 9 7 27-8 27-5" fill="#f0bd9e"/>
+                    <path d="M450 197l-24 10-25 8 8 9 28-5 29-9" fill="#f0bd9e"/>
+                    <path d="M392 220l11 1 8 7-9 7-13-5-7-7z" fill="#d59d83"/>
+                    <path d="M551 192l-1 35m-47-5-5 34m38-30 15 31" fill="none" stroke="#df6a85" stroke-width="15" stroke-linecap="round"/>
+                    <path d="M483 259h28m29 0h29" stroke="#9e586f" stroke-width="8" stroke-linecap="round"/>
+                  </g>
+                  <path d="M397 213h-13" stroke="#b77e67" stroke-width="3" stroke-linecap="round"/>
+                </g>
+                <g class="compression-mark">
+                  <path d="M405 189v-17m-11 13 11-13 11 13" fill="none" stroke="#f39d9e" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                  <circle cx="405" cy="211" r="19" fill="none" stroke="#f39d9e" stroke-width="2" opacity=".7"/>
+                </g>
+                <rect x="18" y="266" width="144" height="23" rx="11" fill="#ffffffbb"/>
+                <circle cx="32" cy="277" r="4" fill="#df506e"/>
+                <text x="42" y="281" fill="#63718a" font-size="9" font-family="sans-serif" font-weight="800" letter-spacing="1">SALA DE SIMULACIÓN</text>
+              </svg>
+              <div class="scene-caption"><span class="scene-live"></span> PRÁCTICA DE RCP · MANIQUÍ ADULTO</div>
+            </div>
+            <div class="case-copy">
+              <span class="case-caption">ESCENARIO</span>
+              <p id="scenario-text"></p>
+            </div>
+          </div>
+
+          <div class="movement-controls" aria-label="Controles para mover al equipo">
+            <div class="movement-copy">
+              <span class="movement-title">MUEVE A TU COMPAÑERA</span>
+              <span class="movement-help">Arrástrala, usa WASD/flechas o los controles. Pulsa R para practicar RCP.</span>
+              <span id="movement-status" role="status" aria-live="polite">Acércala al maniquí para iniciar la práctica.</span>
+            </div>
+            <div class="direction-pad" role="group" aria-label="Mover compañera">
+              <button type="button" data-move="up" aria-label="Mover arriba">↑</button>
+              <button type="button" data-move="left" aria-label="Mover a la izquierda">←</button>
+              <span class="pad-center" aria-hidden="true">✚</span>
+              <button type="button" data-move="right" aria-label="Mover a la derecha">→</button>
+              <button type="button" data-move="down" aria-label="Mover abajo">↓</button>
+            </div>
+            <button type="button" id="compression-button" class="compression-button" aria-label="Practicar una compresión, tecla R">
+              <span aria-hidden="true">♥</span><span>Practicar RCP</span><kbd>R</kbd>
+            </button>
+          </div>
+
+          <div class="prompt-row">
+            <span class="prompt-icon" aria-hidden="true">?</span>
+            <div><small id="prompt-kicker">TU DECISIÓN</small><p id="prompt-text"></p></div>
+          </div>
+
+          <div class="answer-area" id="answer-area"></div>
+          <div class="feedback hidden" id="feedback" role="status">
+            <span class="feedback-icon" id="feedback-icon" aria-hidden="true"></span>
+            <div><strong id="feedback-title"></strong><p id="feedback-text"></p></div>
+          </div>
+          <div class="challenge-footer">
+            <span id="question-counter">RETO 1 DE 1</span>
+            <button id="continue-button" class="button button-primary hidden" type="button">Continuar <span aria-hidden="true">→</span></button>
+          </div>
+        </div>
+
+        <div class="end-screen hidden" id="end-screen" aria-live="polite">
+          <div class="end-medal" id="end-medal">✦</div>
+          <p class="kicker" id="end-kicker">MISIÓN COMPLETADA</p>
+          <h2 id="end-title">¡Vida salvada!</h2>
+          <p class="end-copy" id="end-copy"></p>
+          <div class="end-stats">
+            <div><small>PUNTUACIÓN</small><strong id="final-score">0</strong></div>
+            <div><small>VIDAS RESTANTES</small><strong id="final-lives">0</strong></div>
+            <div><small>RETOS SUPERADOS</small><strong id="final-count">0</strong></div>
+          </div>
+          <button id="restart-button" class="button button-primary button-large" type="button">Jugar de nuevo <span aria-hidden="true">↻</span></button>
+        </div>
+
+        <footer class="play-footer"><span>✚ <b>MISIÓN: SALVAR UNA VIDA</b></span><span>SIMULADOR EDUCATIVO · RCP ADULTOS</span></footer>
+      </section>
+    </section>
+    <p class="disclaimer">En una emergencia real, llama al número local de emergencias y sigue las instrucciones del operador y del DEA. Este juego es educativo y no sustituye un curso acreditado ni protocolos locales.</p>
+  </main>
+</body>
+</html>
